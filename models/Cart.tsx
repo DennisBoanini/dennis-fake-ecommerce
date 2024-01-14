@@ -1,3 +1,3 @@
-import { Product } from '@/models/Product';
+import { CartProduct } from '@/models/CartProduct';
 
-export type Cart = Product[];
+export type Cart = CartProduct[];
