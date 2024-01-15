@@ -35,7 +35,7 @@ export default function ProductDetail(props: Props) {
 					className={'rounded-full bg-primary-black text-white w-fit px-8 py-2 mb-5'}
 				>{`${product.category.slice(0, 1).toUpperCase() + product.category.slice(1)}`}</div>
 				<h1 className={'font-bold text-5xl'}>{`${product.brand} - ${product.title}`}</h1>
-				<p className={'mt-5'}>{product.description}</p>
+				<p className={'mt-5 text-2xl text-gray-300'}>{product.description}</p>
 				<div className={'h-full my-5'}>{product.stock < LOW_ITEMS_LIMIT && <p className={'text-red-600'}>Ancora pochi pezzi!!</p>}</div>
 				<div className={'h-full my-5'}>
 					<div className={'flex items-center justify-between'}>

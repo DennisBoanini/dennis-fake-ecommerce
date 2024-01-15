@@ -1,5 +1,6 @@
 import { toCurrency } from '@/utils/misc';
 import { SHIPPING_PRICE } from '@/utils/constants';
+import Button from '@/components/Button';
 
 type Props = {
 	subtotal: number;
@@ -23,6 +24,9 @@ export default function OrderSummaryBox(props: Props) {
 				<div className={'flex items-center justify-between my-2'}>
 					<strong>Totale</strong>
 					<span>{toCurrency(props.subtotal + SHIPPING_PRICE)}</span>
+				</div>
+				<div>
+					<Button buttonText={"concludi l'acquisto"} onClick={() => alert('Acquisto concluso')} />
 				</div>
 			</div>
 		</div>

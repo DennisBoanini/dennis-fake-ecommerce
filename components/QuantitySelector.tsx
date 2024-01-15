@@ -13,7 +13,7 @@ type Props = {
 export default function QuantitySelector(props: Props) {
 	return (
 		<div
-			className={`mt-5 flex items-center gap-4 w-28 ${(props.isLoading || props.disabled) && 'hover:cursor-not-allowed opacity-10 cursor-not-allowed'}`}
+			className={`flex items-center gap-4 w-auto ${(props.isLoading || props.disabled) && 'hover:cursor-not-allowed opacity-45 cursor-not-allowed'}`}
 			aria-disabled={props.isLoading || props.disabled}
 		>
 			{!props.isLoading && (
@@ -23,7 +23,7 @@ export default function QuantitySelector(props: Props) {
 						onClick={() => props.onQuantityChange('decrease')}
 						disabled={props.quantity === 1 || props.disabled}
 						aria-disabled={props.quantity === 1 || props.disabled}
-						className={`${props.disabled && 'hover:cursor-not-allowed opacity-10 cursor-not-allowed'}`}
+						className={`${props.disabled && 'hover:cursor-not-allowed opacity-45 cursor-not-allowed'}`}
 					/>
 					<span>{props.quantity}</span>
 					<Button
@@ -31,7 +31,7 @@ export default function QuantitySelector(props: Props) {
 						onClick={() => props.onQuantityChange('increase')}
 						disabled={props.disabled}
 						aria-disabled={props.disabled}
-						className={`${props.disabled && 'hover:cursor-not-allowed opacity-10 cursor-not-allowed'}`}
+						className={`${props.disabled && 'hover:cursor-not-allowed opacity-45 cursor-not-allowed'}`}
 					/>
 				</>
 			)}

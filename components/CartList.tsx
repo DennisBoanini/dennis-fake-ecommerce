@@ -1,9 +1,8 @@
 'use client';
 import { Cart } from '@/models/Cart';
 import { Fragment, useEffect, useState } from 'react';
-import CartProduct from '@/components/CartProduct';
-import { toCurrency } from '@/utils/misc';
-import { SHIPPING_PRICE } from '@/utils/constants';
+import CartProductRow from '@/components/CartProductRow';
+import OrderSummaryBox from '@/components/OrderSummaryBox';
 
 type Props = {
 	cart: Cart;
@@ -17,35 +16,22 @@ export default function CartList(props: Props) {
 	}, [props.cart]);
 
 	return (
-		<div className={'flex items-start justify-between gap-8'}>
-			<div className={'flex-1 flex flex-col gap-4'}>
-				{props.cart.length === 0 && <h2>Non hai elementi nel carrello</h2>}
+		<div className={'flex flex-col-reverse xl:flex-row gap-4'}>
+			<div className={''}>
+				{props.cart.length === 0 && (
+					<div className={'flex items-center justify-center text-2xl font-medium'}>
+						<h2>Nessun articolo nel carrello.</h2>
+					</div>
+				)}
 				{props.cart.map((item, index) => (
 					<Fragment key={item.id}>
-						<CartProduct cartProduct={item} />
+						<CartProductRow cartProduct={item} />
 						{index !== props.cart.length - 1 && <div className={'border'}></div>}
 					</Fragment>
 				))}
 			</div>
-
-			<div className={'flex flex-col border min-w-96 rounded-md border-primary-black p-2 shadow-md shadow-gray-200'}>
-				<h2 className={'font-bold text-2xl'}>Riassunto</h2>
-
-				<div className={'mt-8'}>
-					<div className={'flex items-center justify-between'}>
-						<span>Subtotale (IVA inclusa)</span>
-						<span>{toCurrency(subtotal)}</span>
-					</div>
-					<div className={'flex items-center justify-between'}>
-						<span>Spedizione</span>
-						<span>{toCurrency(SHIPPING_PRICE)}</span>
-					</div>
-					<div className={'border my-2'} />
-					<div className={'flex items-center justify-between my-2'}>
-						<strong>Totale</strong>
-						<span>{toCurrency(subtotal + SHIPPING_PRICE)}</span>
-					</div>
-				</div>
+			<div className={'w-full xl:max-w-sm'}>
+				<OrderSummaryBox subtotal={subtotal} />
 			</div>
 		</div>
 	);
