@@ -17,7 +17,7 @@ export default function ProductDetail(props: Props) {
 	const [addProductAction, isRunning] = useServerAction(addProductToCart);
 
 	return (
-		<div className="flex w-full">
+		<div className="flex flex-col-reverse md:flex-row w-full">
 			<div className="flex-1 grid md:grid-cols-2 grid-cols-1 gap-8 m-2">
 				{product.images.map((image, index) => (
 					<Image
@@ -30,7 +30,7 @@ export default function ProductDetail(props: Props) {
 					/>
 				))}
 			</div>
-			<div className="max-w-[40%] m-2  h-full">
+			<div className="w-full md:max-w-[40%] m-2 h-full border border-primary-black md:border-none rounded-md md:rounded-none p-2 md:p-0">
 				<div
 					className={'rounded-full bg-primary-black text-white w-fit px-8 py-2 mb-5'}
 				>{`${product.category.slice(0, 1).toUpperCase() + product.category.slice(1)}`}</div>
