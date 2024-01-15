@@ -6,6 +6,7 @@ import { toCurrency } from '@/utils/misc';
 import { Product } from '@/models/Product';
 import Button from '@/components/Button';
 import { addProductToCart } from '@/app/actions';
+import { useServerAction } from '@/hooks/useServerAction';
 
 type Props = {
 	product: Product;
@@ -13,6 +14,7 @@ type Props = {
 
 export default function ProductDetail(props: Props) {
 	const { product } = props;
+	const [addProductAction, isRunning] = useServerAction(addProductToCart);
 
 	return (
 		<div className="flex w-full">
@@ -44,9 +46,7 @@ export default function ProductDetail(props: Props) {
 					</div>
 				</div>
 				<div>
-					{/*<form onSubmit={addToCartHandler}>*/}
-					<Button type={'submit'} buttonText={'aggiungi al carrello'} onClick={() => addProductToCart(product)} />
-					{/*</form>*/}
+					<Button type={'submit'} buttonText={'aggiungi al carrello'} onClick={() => addProductAction(product)} isLoading={isRunning} />
 				</div>
 			</div>
 		</div>

@@ -15,6 +15,7 @@ export default function Button(props: Props) {
 			}`}
 			onClick={props.onClick}
 			disabled={props.isLoading || props.disabled}
+			aria-disabled={props.isLoading || props.disabled}
 		>
 			<div className={'flex items-center justify-center'}>
 				{props.isLoading && <Spinner />}

@@ -19,6 +19,7 @@ export default function CartList(props: Props) {
 	return (
 		<div className={'flex items-start justify-between gap-8'}>
 			<div className={'flex-1 flex flex-col gap-4'}>
+				{props.cart.length === 0 && <h2>Non hai elementi nel carrello</h2>}
 				{props.cart.map((item, index) => (
 					<Fragment key={item.id}>
 						<CartProduct cartProduct={item} />

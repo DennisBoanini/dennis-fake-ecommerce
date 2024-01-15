@@ -4,17 +4,21 @@ import QuantitySelector from '@/components/QuantitySelector';
 import { toCurrency } from '@/utils/misc';
 import { removeProductFromCart, updateQuantityProductInCart } from '@/app/actions';
 import Button from '@/components/Button';
+import { useServerAction } from '@/hooks/useServerAction';
 
 type Props = {
 	cartProduct: CartProduct;
 };
 
 export default function CartProduct(props: Props) {
-	function onQuantityChangeHandler(direction: 'increase' | 'decrease') {
-		if (direction === 'increase') {
-			updateQuantityProductInCart(props.cartProduct.id, props.cartProduct.quantity + 1);
+	const [runRemoveAction, isRemoveActionRunning] = useServerAction(removeProductFromCart);
+	const [updateProductQuantityAction, isUpdateProductQuantityActionRunning] = useServerAction(updateQuantityProductInCart);
+
+	function onUpdateQuantityHandler(actionType: 'increase' | 'decrease') {
+		if (actionType === 'increase') {
+			updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity + 1);
 		} else {
-			updateQuantityProductInCart(props.cartProduct.id, props.cartProduct.quantity - 1);
+			updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity - 1);
 		}
 	}
 
@@ -30,7 +34,13 @@ export default function CartProduct(props: Props) {
 						<p>{props.cartProduct.description}</p>
 					</div>
 					<div className={'flex items-center justify-between'}>
-						<QuantitySelector quantity={props.cartProduct.quantity} onQuantityChange={direction => onQuantityChangeHandler(direction)} />
+						<QuantitySelector
+							isLoading={isUpdateProductQuantityActionRunning}
+							quantity={props.cartProduct.quantity}
+							productId={props.cartProduct.id}
+							disabled={isRemoveActionRunning}
+							onQuantityChange={actionType => onUpdateQuantityHandler(actionType)}
+						/>
 					</div>
 				</div>
 				<div className={'flex flex-col justify-between h-full min-w-48'}>
@@ -38,7 +48,13 @@ export default function CartProduct(props: Props) {
 						{props.cartProduct.quantity > 1 && <span>{props.cartProduct.quantity} x </span>}
 						<strong className={'text-2xl font-medium'}>{toCurrency(props.cartProduct.price)}</strong>
 					</div>
-					<Button buttonText={'rimuovi'} style={'danger'} onClick={() => removeProductFromCart(props.cartProduct.id)} />
+					<Button
+						buttonText={'rimuovi'}
+						style={'danger'}
+						isLoading={isRemoveActionRunning}
+						disabled={isUpdateProductQuantityActionRunning}
+						onClick={async () => runRemoveAction(props.cartProduct.id)}
+					/>
 				</div>
 			</div>
 		</div>

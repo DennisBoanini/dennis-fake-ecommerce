@@ -9,48 +9,6 @@ type Props = {
 };
 
 export default function ProductCard(props: Props) {
-	// const { product } = props;
-	// const [addingToCart, setAddingToCart] = useState<boolean>(false);
-	// const [productAdded, setProductAdded] = useState<boolean>(false);
-
-	// function addToCartHandler(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-	// 	event.preventDefault();
-	// 	setAddingToCart(true);
-	// 	setTimeout(() => {
-	// 		const cart = Storage.get<TmpCart[]>(EStorageKey.CART);
-	// 		if (!cart) {
-	// 			const tmpProductElement: TmpCart = {
-	// 				product: product,
-	// 				quantity: 1
-	// 			};
-	// 			Storage.set<TmpCart[]>(EStorageKey.CART, [tmpProductElement]);
-	// 		} else {
-	// 			const index = cart.findIndex(item => item.product.id === product.id);
-	// 			if (index >= 0) {
-	// 				const updatedTmpCart = cart.map(item => {
-	// 					if (item.product.id === product.id) {
-	// 						return { ...item, quantity: item.quantity + 1 };
-	// 					}
-	//
-	// 					return item;
-	// 				});
-	//
-	// 				Storage.set<TmpCart[]>(EStorageKey.CART, updatedTmpCart);
-	// 			} else {
-	// 				const tmpProductElement: TmpCart = {
-	// 					product: product,
-	// 					quantity: 1
-	// 				};
-	// 				const newTmpCart = [...cart, tmpProductElement];
-	// 				Storage.set<TmpCart[]>(EStorageKey.CART, newTmpCart);
-	// 			}
-	// 		}
-	// 		setAddingToCart(false);
-	// 		setProductAdded(true);
-	// 		setTimeout(() => setProductAdded(false), 3000);
-	// 	}, 5000);
-	// }
-
 	return (
 		<>
 			<div className={'hover:rounded-xl hover:shadow-2xl hover:shadow-primary-black flex flex-col hover:border hover:border-primary-black'}>
