@@ -14,18 +14,14 @@ export default function CartList(props: Props) {
 
 	useEffect(() => {
 		setSubtotal(props.cart.reduce((a, b) => (a += b.quantity * b.price), 0));
-	}, []);
-
-	// function recalculateCartPrice(tmpCart: TmpCart[]) {
-	// 	setSubtotal(tmpCart.reduce((a, b) => (a += b.quantity * b.product.price), 0));
-	// }
+	}, [props.cart]);
 
 	return (
 		<div className={'flex items-start justify-between gap-8'}>
 			<div className={'flex-1 flex flex-col gap-4'}>
 				{props.cart.map((item, index) => (
 					<Fragment key={item.id}>
-						<CartProduct cartProduct={item} quantity={item.quantity} />
+						<CartProduct cartProduct={item} />
 						{index !== props.cart.length - 1 && <div className={'border'}></div>}
 					</Fragment>
 				))}

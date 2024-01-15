@@ -16,7 +16,7 @@ export async function updateQuantityProductInCart(id: number, quantity: number) 
 		throw new Error(`Error patching product with id ${id}. Error ${JSON.stringify(response)}`);
 	}
 
-	revalidatePath('/');
+	revalidatePath('/carrello');
 }
 
 export async function addProductToCart(product: Product) {
@@ -44,5 +44,5 @@ export async function removeProductFromCart(id: number) {
 		throw new Error(`Error deleting product with id ${id}. Error ${JSON.stringify(response)}`);
 	}
 
-	revalidatePath('/');
+	revalidatePath('/carrello');
 }

@@ -2,42 +2,20 @@ import Image from 'next/image';
 import { CartProduct } from '@/models/CartProduct';
 import QuantitySelector from '@/components/QuantitySelector';
 import { toCurrency } from '@/utils/misc';
+import { updateQuantityProductInCart } from '@/app/actions';
 
 type Props = {
 	cartProduct: CartProduct;
-	quantity: number;
-	// updateTmpCartHandler: (tmpCart: TmpCart[]) => void;
 };
 
 export default function CartProduct(props: Props) {
-	// function editQuantityHandler(action: 'decrease' | 'increase') {
-	// 	const tmpCart = Storage.get<TmpCart[]>(EStorageKey.CART);
-	// 	if (action === 'decrease') {
-	// 		const updatedCart =
-	// 			tmpCart?.map(item => {
-	// 				if (item.product.id === props.product.id) {
-	// 					return { ...item, quantity: quantity > 1 ? item.quantity - 1 : 1 };
-	// 				}
-	//
-	// 				return item;
-	// 			}) ?? [];
-	// 		Storage.set<TmpCart[]>(EStorageKey.CART, updatedCart);
-	// 		setQuantity(prevState => (quantity > 1 ? prevState - 1 : 1));
-	// 	} else {
-	// 		const updatedCart =
-	// 			tmpCart?.map(item => {
-	// 				if (item.product.id === props.product.id) {
-	// 					return { ...item, quantity: item.quantity + 1 };
-	// 				}
-	//
-	// 				return item;
-	// 			}) ?? [];
-	// 		Storage.set<TmpCart[]>(EStorageKey.CART, updatedCart);
-	// 		setQuantity(prevState => prevState + 1);
-	// 	}
-	//
-	// 	props.updateTmpCartHandler(Storage.get<TmpCart[]>(EStorageKey.CART)!);
-	// }
+	function onQuantityChangeHandler(direction: 'increase' | 'decrease') {
+		if (direction === 'increase') {
+			updateQuantityProductInCart(props.cartProduct.id, props.cartProduct.quantity + 1);
+		} else {
+			updateQuantityProductInCart(props.cartProduct.id, props.cartProduct.quantity - 1);
+		}
+	}
 
 	return (
 		<div className={'flex flex-wrap gap-4'}>
@@ -48,7 +26,7 @@ export default function CartProduct(props: Props) {
 				<div className={'flex flex-col flex-1 gap-2'}>
 					<h2 className={'text-2xl font-semibold'}>{props.cartProduct.title}</h2>
 					<p>{props.cartProduct.description}</p>
-					<QuantitySelector quantity={props.cartProduct.quantity} />
+					<QuantitySelector quantity={props.cartProduct.quantity} onQuantityChange={direction => onQuantityChangeHandler(direction)} />
 				</div>
 				<div className={''}>
 					{props.cartProduct.quantity > 1 && <span>{props.cartProduct.quantity} x </span>}
