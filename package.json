@@ -4,11 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "concurrently --kill-others \"npx json-server --watch db.json --port 3001 --delay 2000\" \"next dev\"",
-		"build": "next build",
-		"start": "concurrently --kill-others \"npx json-server --watch db.json --port 3001 --delay 2000\" \"next start\"",
 		"lint": "next lint",
-		"prepare": "husky install",
-		"prestart": "npm run build"
+		"prepare": "husky install"
 	},
 	"lint-staged": {
 		"**/*": "prettier --write --ignore-unknown"
