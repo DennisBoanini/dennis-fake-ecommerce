@@ -4,7 +4,6 @@
 
 ## **Tabelle dei contenuti**
 
--   [Richiesta](#richiesta)
 -   [Scelte implementative](#scelte-implementative)
 -   [Installazione ed esecuzione del progetto](#install-execution)
 -   [Pagine implementate](#pagine-implementate)
@@ -19,15 +18,7 @@
 -   pnpm v8.9.0
 -   NextJS v14.0.4
 -   React v18
--   json-server v0.17.4 (su github sono presenti anche versioni superiori, ma essendo in versione alpha non mi sono fidato 😅)
-
----
-
-<a id="richiesta"></a>
-
-### Richiesta
-
-La richiesta è quella di implementare un paio di pagine di un ipotetico e-commerce: nello specifico viene richiesto di implementare, almeno, una pagina di lista prodotti e una pagina che mostra il contenuto del carrello. Le azioni da implementare sono quelle di aggiunta/rimozione prodotto nel/dal carrello.
+-   json-server v0.17.4
 
 ---
 
@@ -39,11 +30,11 @@ In questa sezione vengono esposte le scelte implementative fatte e le motivazion
 
 #### Il framework
 
-Essendo un ecommerce, per la realizzazione del progetto è stato usato il framework react NextJS (v14.x) in modo tale da privilegiare la SEO e le performance, grazie all'utilizzo di **Server Side Rendering** e **Server Actions**.
+Essendo un ecommerce, per la realizzazione del progetto è stato usato il framework react NextJS (v14.x) in modo tale da privilegiare la SEO e le performance, grazie all'utilizzo dei diversi tipi di rendering della pagine e **Server Actions**.
 
 #### Il linguaggio
 
-Il linguaggio utilizzato col framework è **Typescript** in quanto rende più sicuro il codice scritto permettendo di intercettare diversi errori a compile time, anzichè a runtime come con JavaScript, e permette anche di scrivere codice più semantico grazie all'uso di oggetti, in questo modo gli sviluppatori che arrivano sul progetto hanno una comprensione del codice più accelerata e quindi possono concentrarsi maggiormente sull'aspetto funzionale piuttosto che quello tecnico.
+Il linguaggio utilizzato col framework è **Typescript**. La scelta di questo linguaggio è stata una naturale scelta in modo tale da favorire la robustezza dell'applicazione prevendo molti errori che con JavaScript potrebbero presentarsi a runtime. Oltre alla robustezza dell'applicazione secondo me Typescript contribuisce a rendere anche il codice scritto più semantico e facilmente comprensibile, in questo modo il tempo speso da altri sviluppatori per comprendere il codice scritto è minore e possono concentrarsi maggiormente sugli aspetti funzionale, piuttosto che su quelli applicativi.
 
 #### Package manager
 
@@ -61,9 +52,9 @@ Le dipendenze installate, degne di nota, sono
 
 Link github https://github.com/typicode/json-server/tree/v0.17.4
 
-**json-server** è una dipendenza che ho installato per simulare la comunicazione con un server creato al volo. Mi sono reso conto che utilizzando le API di, ad esempio, https://dummyjson.com/ avevo solamente la possibilità di effettuare chiamate vere in GET, mentre le chiamate in POST, PUT, PATCH e DELETE sono, ovviamente, tutte finte, nel senso che viene simulata una risposta dal server ma niente viene persistito. Volevo rendere l'ecommerce sviluppato quanto più verosimile possibile e per fare le feature di aggiunta/rimozione prodotti dal carrello stavo utilizzando la localstorage che però mi stava portando ad un utilizzato completamente sbagliato del framework NextJS, facendo un abuso di componenti con 'use client' (componenti client side, in quanto lo storage è una feature del browser che ovviamente sul server non c'è) e non sfruttando quindi tutte le ottimizzazioni messe a disposizione.
+**json-server** è una dipendenza che ho installato per simulare la comunicazione con un server che viene creato "al volo". Mi sono reso conto che utilizzando API mockate, come ad esempio https://dummyjson.com/, avevo solamente la possibilità di effettuare chiamate vere in GET, mentre le chiamate in POST, PUT, PATCH e DELETE sono, ovviamente, tutte finte, nel senso che viene simulata una risposta dal server ma niente viene persistito. La mia idea era quella di sviluppare un e-commerce quanto più verosimile possibile e quindi la mia scelta è ricaduta su questa dipendenza che mi permette, in modo molto semplice, di tirare su un server sul quale è possibile fare sia operazioni di scrittura che operazioni di lettura.
 
-**json-server** è molto semplice da utilizzare, una volta installata la dipendenza è necessario creare un file **db.json** che fungerà da database, tutte le chiamate HTTP verranno fatte andando a leggere e scrivere su questo file, in questo modo ho potuto sfruttare a pieno il framework utilizzando i componenti client-side solamente quando necessario (ad esempio i diversi click sui vari bottoni per aggiungere/rimuovere prodotti da carrello e per modificare la quantità), mentre tutte le chiamate HTTP vengono fatte server side, e di conseguenza sono più veloci e più sicure, visto che nella console del browser non compaiono.
+L'utilizzo di **json-server** è molto semplice, una volta installata la dipendenza è necessario creare un file **db.json** che fungerà da database, tutte le chiamate HTTP verranno fatte andando a leggere e scrivere su questo file.
 
 ---
 
