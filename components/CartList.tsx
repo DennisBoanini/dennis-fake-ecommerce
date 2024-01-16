@@ -17,7 +17,7 @@ export default function CartList(props: Props) {
 
 	return (
 		<div className={'flex flex-col-reverse xl:flex-row gap-4'}>
-			<div>
+			<div className={'flex-1'}>
 				{props.cart.length === 0 && (
 					<div className={'flex items-center justify-center text-2xl font-medium'}>
 						<h2>Nessun articolo nel carrello.</h2>
