@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ecommerce-button {
+	@apply border-[1px] border-primary-black bg-primary-black rounded-md py-3 px-5 text-white uppercase hover:cursor-pointer hover:bg-white hover:text-primary-black;
+}
