@@ -23,7 +23,7 @@ export default function Footer() {
 								{item.links.map(link => (
 									<Link key={link.title} href={link.url} title={link.title} className="text-gray-500">
 										{item.isSocial ? (
-											<Image src={`${link.title}.svg`} alt={link.title} width={40} height={40} className={'object-contain'} />
+											<Image src={`/${link.title}.svg`} alt={link.title} width={40} height={40} className={'object-contain'} />
 										) : (
 											link.title
 										)}
