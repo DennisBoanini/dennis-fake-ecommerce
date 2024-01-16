@@ -42,8 +42,6 @@ export async function addProductToCart(product: Product) {
 			body: JSON.stringify({ ...product, quantity: 1 })
 		});
 
-		console.log(`Response add product in cart ${JSON.stringify(response)}`);
-
 		if (!response.ok) {
 			throw new Error(`Error adding product to cart. Error ${JSON.stringify(response)}`);
 		}
