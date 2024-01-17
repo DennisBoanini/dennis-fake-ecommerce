@@ -6,7 +6,7 @@ import RatingStars from '@/components/RatingStars';
 import { LOW_ITEMS_LIMIT } from '@/utils/constants';
 import Button from '@/components/Button';
 import { useServerAction } from '@/hooks/useServerAction';
-import { addProductToCart } from '@/app/actions';
+import { addProductToCart } from '@/app/lib/actions';
 
 type Props = {
 	product: Product;

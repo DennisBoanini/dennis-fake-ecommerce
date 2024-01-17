@@ -5,7 +5,7 @@ import RatingStars from '@/components/RatingStars';
 import { toCurrency } from '@/utils/misc';
 import { Product } from '@/models/Product';
 import Button from '@/components/Button';
-import { addProductToCart } from '@/app/actions';
+import { addProductToCart } from '@/app/lib/actions';
 import { useServerAction } from '@/hooks/useServerAction';
 
 type Props = {

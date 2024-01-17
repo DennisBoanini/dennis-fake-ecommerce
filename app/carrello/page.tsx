@@ -11,6 +11,10 @@ export const metadata: Metadata = {
 async function getData(): Promise<ServerResponse<Cart>> {
 	const res = await fetch('http://localhost:3001/carts');
 
+	if (Math.floor(Math.random() * 2) === 5) {
+		throw new Error('Error loading cart');
+	}
+
 	if (res.status === 404) {
 		return {
 			result: undefined,

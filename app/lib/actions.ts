@@ -3,18 +3,23 @@
 import { revalidatePath } from 'next/cache';
 import { Product } from '@/models/Product';
 import { CartProduct } from '@/models/CartProduct';
+import { redirect } from 'next/navigation';
 
 export async function updateQuantityProductInCart(id: number, quantity: number) {
-	const response = await fetch(`http://localhost:3001/carts/${id}`, {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({ quantity })
-	});
+	try {
+		const response = await fetch(`http://localhost:3001/carts/${id}${id === 12 ? 'error' : ''}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ quantity })
+		});
 
-	if (!response.ok) {
-		throw new Error(`Error patching product with id ${id}. Error ${JSON.stringify(response)}`);
+		if (!response.ok) {
+			return { error: 'ERROR_PATCHING' };
+		}
+	} catch (e) {
+		console.error('error server action', e);
 	}
 
 	revalidatePath('/carrello', 'page');
@@ -47,7 +52,7 @@ export async function addProductToCart(product: Product) {
 		}
 
 		revalidatePath('/carrello', 'page');
-		revalidatePath('/[category]', 'page');
+		redirect('/carrello');
 	}
 }
 

@@ -1,11 +1,13 @@
+'use client';
 import { CartProduct } from '@/models/CartProduct';
-import { removeProductFromCart, updateQuantityProductInCart } from '@/app/actions';
+import { removeProductFromCart, updateQuantityProductInCart } from '@/app/lib/actions';
 import { useServerAction } from '@/hooks/useServerAction';
 import Image from 'next/image';
 import QuantitySelector from '@/components/QuantitySelector';
 import { toCurrency } from '@/utils/misc';
 import Trash from '@/components/Trash';
 import Spinner from '@/components/Spinner';
+import { useState } from 'react';
 
 type Props = {
 	cartProduct: CartProduct;
@@ -14,12 +16,13 @@ type Props = {
 export default function CartProductRow(props: Props) {
 	const [runRemoveAction, isRemoveActionRunning] = useServerAction(removeProductFromCart);
 	const [updateProductQuantityAction, isUpdateProductQuantityActionRunning] = useServerAction(updateQuantityProductInCart);
+	const [serverActionResult, setServerActionResult] = useState<{ error: string } | undefined>(undefined);
 
-	function onUpdateQuantityHandler(actionType: 'increase' | 'decrease') {
+	async function onUpdateQuantityHandler(actionType: 'increase' | 'decrease') {
 		if (actionType === 'increase') {
-			updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity + 1);
+			setServerActionResult(await updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity + 1));
 		} else {
-			updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity - 1);
+			setServerActionResult(await updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity - 1));
 		}
 	}
 
@@ -41,6 +44,11 @@ export default function CartProductRow(props: Props) {
 							onQuantityChange={actionType => onUpdateQuantityHandler(actionType)}
 						/>
 					</div>
+					{serverActionResult?.error && (
+						<strong
+							className={'text-red-600 font-medium text-xl'}
+						>{`Si è verificato un errore durante l'aggiornamento della quantità. Per favore riprova.`}</strong>
+					)}
 				</div>
 				<div className={'flex flex-row justify-between items-center w-full md:max-w-48'}>
 					<div className={''}>
