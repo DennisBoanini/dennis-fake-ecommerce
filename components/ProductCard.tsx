@@ -7,6 +7,7 @@ import { LOW_ITEMS_LIMIT } from '@/utils/constants';
 import Button from '@/components/Button';
 import { useServerAction } from '@/hooks/useServerAction';
 import { addProductToCart } from '@/app/lib/actions';
+import { useState } from 'react';
 
 type Props = {
 	product: Product;
@@ -14,6 +15,15 @@ type Props = {
 
 export default function ProductCard(props: Props) {
 	const [addProductAction, isRunning] = useServerAction(addProductToCart);
+	const [errorAdding, setErrorAdding] = useState<boolean>(false);
+
+	async function addToCartHandler() {
+		const result = await addProductAction(props.product);
+		if (result?.error) {
+			setErrorAdding(true);
+		}
+	}
+
 	return (
 		<div className={'hover:rounded-xl hover:shadow-2xl hover:shadow-primary-black flex flex-col hover:border hover:border-primary-black'}>
 			<div className={'flex flex-col hover:cursor-pointer'}>
@@ -40,13 +50,18 @@ export default function ProductCard(props: Props) {
 					{/* For the demo sake I set the LOW_ITEMS_LIMIT high so that we can see the alert string */}
 					<div className={'h-full'}>{props.product.stock < LOW_ITEMS_LIMIT && <p className={'text-red-600'}>Ancora pochi pezzi!!</p>}</div>
 				</div>
+				{errorAdding && (
+					<div className="p-2">
+						<strong className={'text-red-600 font-medium'}>{`Si è verificato un errore durante l'aggiunta del prodotto al carrello`}</strong>
+					</div>
+				)}
 				<div className={'p-2'}>
 					<Button
 						type={'button'}
 						buttonText={'aggiungi al carrello'}
-						onClick={e => {
+						onClick={async e => {
 							e.preventDefault();
-							addProductAction(props.product);
+							await addToCartHandler();
 						}}
 						isLoading={isRunning}
 					/>

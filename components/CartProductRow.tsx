@@ -17,6 +17,7 @@ export default function CartProductRow(props: Props) {
 	const [runRemoveAction, isRemoveActionRunning] = useServerAction(removeProductFromCart);
 	const [updateProductQuantityAction, isUpdateProductQuantityActionRunning] = useServerAction(updateQuantityProductInCart);
 	const [serverActionResult, setServerActionResult] = useState<{ error: string } | undefined>(undefined);
+	const [serverActionRemoveResult, setServerActionRemoveResult] = useState<{ error: string } | undefined>(undefined);
 
 	async function onUpdateQuantityHandler(actionType: 'increase' | 'decrease') {
 		if (actionType === 'increase') {
@@ -24,6 +25,10 @@ export default function CartProductRow(props: Props) {
 		} else {
 			setServerActionResult(await updateProductQuantityAction(props.cartProduct.id, props.cartProduct.quantity - 1));
 		}
+	}
+
+	async function onRemoveHandler() {
+		setServerActionRemoveResult(await runRemoveAction(props.cartProduct.id));
 	}
 
 	return (
@@ -49,6 +54,11 @@ export default function CartProductRow(props: Props) {
 							className={'text-red-600 font-medium text-xl'}
 						>{`Si è verificato un errore durante l'aggiornamento della quantità. Per favore riprova.`}</strong>
 					)}
+					{serverActionRemoveResult?.error && (
+						<strong
+							className={'text-red-600 font-medium text-xl'}
+						>{`Si è verificato un errore durante l'eliminazione del prodotto. Per favore riprova.`}</strong>
+					)}
 				</div>
 				<div className={'flex flex-row justify-between items-center w-full md:max-w-48'}>
 					<div className={''}>
@@ -58,7 +68,7 @@ export default function CartProductRow(props: Props) {
 					<div
 						className={`hover:cursor-pointer ${isUpdateProductQuantityActionRunning || isRemoveActionRunning ? 'opacity-45 hover:cursor-not-allowed pointer-events-none' : ''}`}
 						aria-disabled={isUpdateProductQuantityActionRunning || isRemoveActionRunning}
-						onClick={() => runRemoveAction(props.cartProduct.id)}
+						onClick={() => onRemoveHandler()}
 					>
 						{!isRemoveActionRunning && <Trash />}
 						{isRemoveActionRunning && <Spinner />}

@@ -7,6 +7,7 @@ import { Product } from '@/models/Product';
 import Button from '@/components/Button';
 import { addProductToCart } from '@/app/lib/actions';
 import { useServerAction } from '@/hooks/useServerAction';
+import { useState } from 'react';
 
 type Props = {
 	product: Product;
@@ -15,6 +16,14 @@ type Props = {
 export default function ProductDetail(props: Props) {
 	const { product } = props;
 	const [addProductAction, isRunning] = useServerAction(addProductToCart);
+	const [errorAdding, setErrorAdding] = useState<boolean>(false);
+
+	async function addToCartHandler() {
+		const result = await addProductAction(props.product);
+		if (result?.error) {
+			setErrorAdding(true);
+		}
+	}
 
 	return (
 		<div className="flex flex-col-reverse md:flex-row w-full">
@@ -45,8 +54,13 @@ export default function ProductDetail(props: Props) {
 						<strong className={'text-2xl font-medium'}>{toCurrency(product.price)}</strong>
 					</div>
 				</div>
+				{errorAdding && (
+					<div className="p-2">
+						<strong className={'text-red-600 font-medium'}>{`Si è verificato un errore durante l'aggiunta del prodotto al carrello`}</strong>
+					</div>
+				)}
 				<div>
-					<Button type={'submit'} buttonText={'aggiungi al carrello'} onClick={() => addProductAction(product)} isLoading={isRunning} />
+					<Button type={'submit'} buttonText={'aggiungi al carrello'} onClick={async () => await addToCartHandler()} isLoading={isRunning} />
 				</div>
 			</div>
 		</div>
