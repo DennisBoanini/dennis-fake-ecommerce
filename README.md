@@ -30,7 +30,7 @@ In questa sezione vengono esposte le scelte implementative fatte e le motivazion
 
 #### Il framework
 
-Essendo un ecommerce, per la realizzazione del progetto è stato usato il framework react NextJS (v14.x) in modo tale da privilegiare la SEO e le performance, grazie all'utilizzo dei diversi tipi di rendering della pagine e **Server Actions**.
+Essendo un ecommerce, per la realizzazione del progetto è stato scelto di utilizzare il framework react NextJS (v14.x) in modo tale da privilegiare la SEO e le performance, grazie all'utilizzo di diverse feature messe a disposizione come i diversi tipi di rendering della pagine e le **Server Actions**.
 
 #### Il linguaggio
 
@@ -62,7 +62,7 @@ L'utilizzo di **json-server** è molto semplice, una volta installata la dipende
 
 ### Installazione ed esecuzione
 
-Per installare le dipendenze è necessario avere installato sulla proprio macchina pnpm, dopodichè i comandi da eseguire sono
+Per installare le dipendenze è necessario avere installato sulla propria macchina pnpm, dopodichè i comandi da eseguire sono
 
 -   `pnpm install` per installare le dipendenze
 -   `npm run dev` per eseguire il progetto
@@ -75,8 +75,10 @@ Per installare le dipendenze è necessario avere installato sulla proprio macchi
 >
 > Praticamente grazie a [concurrently](https://github.com/open-cli-tools/concurrently) si eseguono in console due processi:
 >
-> 1. il primo quello che avvia json-server (col flag _--watch_ per stare in ascolto dei cambiamenti in sul file db.json in modo tale che lo possiamo editare il senza la necessità di riavviare il tutto) sulla porta 3001 (la 3000 la prende nextjs). Il flag _--delay 2000_ serve ad aggiungere un delay su tutte le chiamate, in modo da simulare latenza di rete.
+> 1. il primo quello che avvia json-server (col flag _--watch_ per stare in ascolto dei cambiamenti in sul file db.json in modo tale che lo possiamo editare senza la necessità di riavviare il tutto) sulla porta 3001 (la 3000 la prende nextjs). Il flag _--delay 2000_ serve ad aggiungere un delay su tutte le chiamate, in modo da simulare latenza di rete.
 > 2. il secondo, `next dev`, semplicemente avvia l'applicazione next in **development** mode.
+
+Se si vuole eseguire la versione ottimizzata è necessario eseguire in una console a parte il comando per eseguire il server `npx json-server --watch db.json --port 3001 --delay 2000` prima di eseguire `npm run build`, in quanto questo comando fa una build dell'applicazione contattando i servizi per scaricare i dati e costruire le pagine. Una volta che il processo di build è finito è possibile eseguire `npm run start`.
 
 ---
 
@@ -92,13 +94,26 @@ Le seguenti pagine sono state implementate:
 
 ---
 
+<a id="errori"></a>
+
+### Gestione errori
+
+Per simulare la gestione degli errori sono stati inseriti, volutamente, alcuni errori legati a determinati prodotti. In particolare abbiamo
+
+-   A pagina 1 il prodotto **OPPOF19** da errore nell'azione di aggiunta al carrello, sia nella pagina di lista prodotti sia nella pagina di dettaglio del prodotto;
+-   A pagina 1 il prodotto **Infinix INBOOK** il click per entrare nel dettaglio naviga verso una pagina non esistente e mostra la pagina di 404
+-   A pagina 2 il prodotto **Brown Perfume** una volta aggiunto al carrello l'azione per aumentare la quantità va in errore
+-   A pagina 1 il prodotto **MacBook Pro** una volta aggiunto al carrello l'azione di eliminazione va in errore
+
+---
+
 <a id="conclusioni"></a>
 
 ### Conclusioni
 
 Sviluppare questo semplice progettino mi ha permesso di conoscere un po' meglio la versione 14 di NextJS e ho avuto la possibilità di sperimentare con le server action.
 
-Per la parte di UI mi sono basato su gusto personale ma ammetto di aver "spiato" altri siti di ecommerce (stroilli, hollister, casio, cotton&silk) per avere spunti per la realizzazione delle diverse pagine.
+Per la parte di UI mi sono basato su gusto personale anche se ammetto di aver preso qualche spunto da altri siti di ecommerce (stroilli, hollister, casio, cotton&silk).
 
 In un progetto di sviluppo di un ecommerce reale presterei particolarmente attenzione alla gestione della cache delle diverse chiamate e la sua rivalidazione, in modo da sfruttare al massimo le potenzialità del framework. Attenzione ai metadati delle diverse pagine. Attenzione allo sviluppo delle pagine del sito utilizzato il tipo di rendering più adatto, quindi sfruttare i diversi tipi di rendering di NextJS come SSR, SSG, ISR o CSR. Tutte queste attenzioni favoriscono una migliore SEO e un punteggio più alto dei diversi crawler per avere una migliore indicizzazione nei risultati di ricerca.
 
